@@ -45,6 +45,76 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+// Copy constructor added to comply with Rule of Five
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    if(source._image != NULL) {
+        _image = new wxBitmap(*(source._image));
+    }
+
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+    _chatLogic->SetChatbotHandle(this); //set chatbot handle to this copy
+}
+
+// Copy assignment operator added to comply with Rule of Five
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+
+    if (this != &source) {
+        if (_image != NULL) //NULL or nullptr?
+            delete _image;
+        _image = new wxBitmap(*(source._image));
+        _chatLogic = source._chatLogic;
+        _rootNode = source._rootNode;
+        _currentNode = source._currentNode;
+        _chatLogic->SetChatbotHandle(this);
+    }
+    return *this;
+}
+
+// Move constructor added to comply with Rule of Five
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    _image = source._image;
+    source._image = nullptr;
+
+    _chatLogic = source._chatLogic;
+    source._chatLogic = nullptr; // Is it necessary?
+
+    _rootNode = source._rootNode;
+    source._rootNode = nullptr; // Is it necessary?
+
+    _currentNode = source._currentNode;
+    source._currentNode = nullptr; // Is it necessary?
+}
+
+// Move assignment operator added to comply with Rule of Five
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+    if (this != &source) {
+        delete _image;
+        _image = source._image;
+        source._image = nullptr;
+
+        _chatLogic = source._chatLogic;
+        source._chatLogic = nullptr;
+
+        _rootNode = source._rootNode;
+        source._rootNode = nullptr;
+
+        _currentNode = source._currentNode;
+        source._currentNode = nullptr;
+    }
+    return *this;
+}
 ////
 //// EOF STUDENT CODE
 
