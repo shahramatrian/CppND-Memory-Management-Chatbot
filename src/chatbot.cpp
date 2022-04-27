@@ -83,16 +83,15 @@ ChatBot::ChatBot(ChatBot &&source)
     std::cout << "ChatBot Move Constructor" << std::endl;
 
     _image = source._image;
-    source._image = nullptr;
-
     _chatLogic = source._chatLogic;
-    source._chatLogic = nullptr; // Is it necessary?
-
     _rootNode = source._rootNode;
-    source._rootNode = nullptr; // Is it necessary?
-
     _currentNode = source._currentNode;
-    source._currentNode = nullptr; // Is it necessary?
+    _chatLogic->SetChatbotHandle(this);
+
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+    source._currentNode = nullptr;
 }
 
 // Move assignment operator added to comply with Rule of Five
@@ -101,16 +100,16 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
     if (this != &source) {
         delete _image;
+        
         _image = source._image;
-        source._image = nullptr;
-
         _chatLogic = source._chatLogic;
-        source._chatLogic = nullptr;
-
         _rootNode = source._rootNode;
-        source._rootNode = nullptr;
-
         _currentNode = source._currentNode;
+        _chatLogic->SetChatbotHandle(this);
+
+        source._image = NULL;
+        source._chatLogic = nullptr;
+        source._rootNode = nullptr;
         source._currentNode = nullptr;
     }
     return *this;
